@@ -12,8 +12,8 @@ My baseline was based on the [paper](https://arxiv.org/abs/2011.09113) and work 
 
 # Models and Datasets
 | Target Dataset        |Teacher Model          | Student Model  |
-| ------------- |:-------------:| -----:|
-| CIFAR10      | Resnet34(pretrained on ImageNet| Resnet18 |
+| ------------- |:-------------:| -----:   |
+| CIFAR10   | Resnet-34(pretrained on ImageNet)| Resnet-18 |
 
 # Code files explained
 - compile.py : is the main code which contains step-wise implementation of the algorithm.
