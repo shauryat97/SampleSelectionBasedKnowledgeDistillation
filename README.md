@@ -8,3 +8,14 @@ To introduce a metric for `selective sampling` from arbitrary datasets in order 
 
 # Baseline
 My baseline was based on the [paper](https://arxiv.org/abs/2011.09113) and work done by Gaurav et al on Data Free Knowledge Distillation.
+
+# Code files explained
+- compile.py : is the main code which contains step-wise implementation of the algorithm.
+- TeacherTrain.py is the code responsible for training the teacher model on the target dataset.
+- data.py contains code for downloading all datasets.
+- distill.py is the code responsible for distilling the knowledge from trained teacher model to the student model.
+- mms_threshold.py and entropy.py contain code for calculating threshold metric for selective samplling.
+- transfer.py is the code for constructing the transfer set.
+
+
+
