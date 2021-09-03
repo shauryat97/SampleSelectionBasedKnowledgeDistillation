@@ -11,6 +11,7 @@ else :
 def calc_mms_threshold(teacher,confidence_loader,n_class):
     
     dct = {}
+    top_mms = {}
     mms_avg = {}
     sample_confidence = {}
     for i in range(n_class):
@@ -31,5 +32,14 @@ def calc_mms_threshold(teacher,confidence_loader,n_class):
                 mms_score = (topk_vals[0] - topk_vals[1]) / (w1 - w2).norm(dim=-1)           
                 sample_confidence[top_class].append(mms_score.item())
     for i in range(n_class):
+        temp_lst = sample_confidence[i]
+        temp_lst.sort(reverse=True)
+        top_mms[i] = temp_lst[:100] # taking top 10 % into account 
+    new_mms={}
+    for i in range(n_class):
+        new_mms[i] = sum(top_mms[i])/100
+    for i in range(n_class):
         mms_avg[i] = sum(sample_confidence[i])/len(sample_confidence[i])
+    # return mms_avg
     return mms_avg
+
