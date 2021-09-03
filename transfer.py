@@ -25,6 +25,8 @@ cifar10train_loader,cifar10confidence_loader,n_class,n_training = cifar10train()
 cifar100train_loader = cifar100()
 cal101_loader = caltech101()
 cal256_loader = caltech256()
+stl10_loader = stl10()
+places365_loader = places365()
 
 def compute_loader(n_class,loader,teacher,bucket_size,dct,mms_avg):
     
@@ -51,7 +53,33 @@ def compute_loader(n_class,loader,teacher,bucket_size,dct,mms_avg):
         num_values+=dct[i]
     return lst,num_values
 
-def transfer_set(threshold,n_training,n_class):
+def compute_loader_entropy(n_class,loader,teacher,bucket_size,dct,threshold):
+    lst = []
+    num_values = 0
+    soft = nn.Softmax()
+    for i,(image,label) in enumerate(loader):
+        batch_size = image.shape[0]
+        image = image.to(device)
+        with torch.no_grad():
+            batch_pred = teacher(image)
+            for j in range(batch_size):
+                logits = batch_pred[j]
+                final_pred = soft(logits)
+                topk_vals, pred_classes= final_pred.topk(2)
+                top_class = pred_classes[0].item()
+                final_pred = final_pred.cpu().data.numpy()
+                entropy = 0
+                for k in range(n_class):
+                    entropy+=(-1*final_pred[k]*np.log(final_pred[k]))
+                if (dct[top_class] < bucket_size) and entropy<=threshold[top_class]:
+                    dct[top_class] +=1
+                    img = image[j].cpu().data.numpy()
+                    lst.append(img)
+    for i in range(n_class):
+        num_values+=dct[i]
+    return lst,num_values                               
+
+def transfer_set(threshold_entropy,n_training,n_class):
     
     dct = {}
     transfer_lst = []
@@ -61,11 +89,12 @@ def transfer_set(threshold,n_training,n_class):
     teacher = torch.load('teacher.pth')
     teacher.eval()
     sum_values = 0
-    loader_lst = [svhn_loader,tinytrain_loader,cifar100train_loader,cal101_loader,cal256_loader]
+    loader_lst = [cifar100train_loader,stl10_loader,places365_loader,tinytrain_loader,svhn_loader,tinytrain_loader,cal101_loader,cal256_loader]
     i = 0
     temp_lst = []
     while(sum_values!=(bucket_size*n_class) and i<len(loader_lst) ) :
-        temp_lst,sum_values = compute_loader(n_class,loader_lst[i],teacher,bucket_size,dct,threshold)
+        # temp_lst,sum_values = compute_loader(n_class,loader_lst[i],teacher,bucket_size,dct,threshold_mms)
+        temp_lst,sum_values = compute_loader_entropy(n_class,loader_lst[i],teacher,bucket_size,dct,threshold_entropy)
         transfer_lst.extend(temp_lst)
         i+=1
     transfer = np.array(transfer_lst)
@@ -76,7 +105,7 @@ def transfer_set(threshold,n_training,n_class):
     transfer_loader  = DataLoader(my_dataset,batch_size=64,shuffle=True)
     my_data_numpy = np.array(transfer_lst)
     np.save('my_data_numpy',my_data_numpy)
-    return transfer_loader
+    return transfer_loader,dct,i
 
 
 
