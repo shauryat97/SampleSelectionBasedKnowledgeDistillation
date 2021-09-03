@@ -100,3 +100,28 @@ def caltech101():
                                               )
     return caltech101_loader
 
+
+
+def stl10():
+    stl10 = torchvision.datasets.STL10('/home/cds/Shaurya/Datasets',
+                                 split  = 'train',
+                                 transform = svhn_transform, 
+                                 download = True)
+    stl10_loader = torch.utils.data.DataLoader(stl10,
+                                         batch_size = 64,
+                                         shuffle = True
+                                         )
+    return stl10_loader
+
+def places365():
+
+    places365 = torchvision.datasets.Places365('/home/cds/Shaurya/Datasets',
+                                                split = 'val',
+                                                small = True,
+                                                download = False, 
+                                                transform = svhn_transform)
+    places365_loader = torch.utils.data.DataLoader(places365,
+                                         batch_size = 64,
+                                         shuffle = True
+                                         )
+    return places365_loader
