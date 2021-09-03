@@ -9,6 +9,7 @@ from TeacherTrain import *
 from mms_threshold import *
 from transfer import *
 from inference import *
+from entropy import *
 
 
 # Train Teacher on Cifar 10 
@@ -20,20 +21,24 @@ teacher = torch.load('teacher.pth')
 # Make Transfer set using Trained Teacher and MMS_scores
 
 teacher.eval()
-threshold = calc_mms_threshold(teacher,cifar10confidence_loader,n_class)
-transfer_loader = transfer_set(threshold,n_training,n_class)
+
+for criteria in ['mms','entropy']:
+    if criteria =='mms':
+        threshold = calc_mms_threshold(teacher,cifar10confidence_loader,n_class)
+    elif criteria =='entropy':
+        threshold = entropy_threshold(teacher,cifar10confidence_loader,n_class)
+    transfer_loader,dct,num_datasets = transfer_set(threshold,n_training,n_class)
+
+    # Train student on Transfer set (Distillation)
+
+    student = torchvision.models.resnet18(pretrained=False)
+    student = train_student(teacher,student,transfer_loader,n_class)
 
 
-# Train student on Transfer set (Distillation)
 
-student = torchvision.models.resnet18(pretrained=False)
-student = train_student(teacher,student,transfer_loader,n_class)
+    # Inference on Test data to calculate accuarcy of student 
+    cifar10test_loader = cifar10test()
+    acc,n_correct,n_samples  = student_inference(student,cifar10test_loader)
+    print('Accuracy for '+criteria+' = ',acc)
 
-
-
-# Inference on Test data to calculate accuarcy of student 
-cifar10test_loader = cifar10test()
-acc,n_correct,n_samples  = student_inference(student,cifar10test_loader)
-
-print('Accuracy = ',acc)
 
