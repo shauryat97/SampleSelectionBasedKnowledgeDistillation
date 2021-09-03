@@ -7,5 +7,5 @@ The core idea of KD was given by Geoffrey Hinton et al. in 2014.[1].
 To introduce a metric for **selective sampling** from arbitrary datasets in order to  increase the distillation performance of the teacher model.
 
 # Baseline
-My baseline was based on the [!paper]https://arxiv.org/abs/2011.09113
+My baseline was based on the [paper](https://arxiv.org/abs/2011.09113) by Gaurav et al.
 
