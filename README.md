@@ -20,9 +20,10 @@ My baseline was based on the [paper](https://arxiv.org/abs/2011.09113) and work 
 | `CIFAR100`   | `Inception-V3(pretrained on ImageNet)`| `Resnet-18` |
 
 # Datasets used for constructing transfer sets.
-| Target Dataset        | |Arbitrary Datasets used |
-| ------------- ||:-------------:| 
-| `CIFAR10`   | | SVHN,TinyImageNet,Places365,Cifar100,STL10,Caltech256,Caltech101 |
+| Target Dataset        |Arbitrary Datasets used          |
+| ------------- |:-------------:|
+| CIFAR10   | SVHN,TinyImageNet,Places365,Cifar100,STL10,Caltech256,Caltech101|
+| `CIFAR100`   | `Inception-V3(pretrained on ImageNet)`| `Resnet-18` |
 
 # Code files explained
 - compile.py : is the main code which contains step-wise implementation of the algorithm.
