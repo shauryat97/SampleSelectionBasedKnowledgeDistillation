@@ -1,4 +1,6 @@
 # Sample Selection Based Knowledge Distillation
+![KD_Diagram](https://user-images.githubusercontent.com/73641247/132132477-70e98893-a3a6-4b14-b070-0e59152079f7.png)
+
 
 Knowledge distillation is an effective approach for compressing deep neural networks by distilling the generalization capability (“dark knowledge”) of a complex network (teacher) to a simpler network (student).
 The core idea of KD was given by Geoffrey Hinton et al. in 2014.[1].
