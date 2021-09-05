@@ -39,6 +39,8 @@ I used the same concept of confidence as a sample selection metric. I select tho
 | Student untrained with KD using SVHN+TinyIN Balanced  | 60.67|
 | `Student untrained with KD+MMS Score`   | `68.02`|
 
+i.e., I get an `increase in accuracy by 7.35%` after using a sample selection metric(Minimal Margin Score).
+
 # Code files explained
 - compile.py : is the main code which contains step-wise implementation of the algorithm.
 - TeacherTrain.py is the code responsible for training the teacher model on the target dataset.
