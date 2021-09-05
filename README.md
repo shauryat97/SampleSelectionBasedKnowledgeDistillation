@@ -25,6 +25,16 @@ My baseline was based on the [paper](https://arxiv.org/abs/2011.09113) and work 
 | CIFAR10   | SVHN , TinyImageNet , Places365 , Cifar100 , STL10 , Caltech256 , Caltech101 |
 | CIFAR100  | SVHN , TinyImageNet , Places365 , Cifar10 , STL10 , Caltech256 , Caltech101|
 
+# Results
+
+1. For CIFAR10 as target dataset and Resnet-18 as Student : 
+
+|   Approach    |Accuracy(%)      |
+| ------------- |:-------------:|
+| Student pretrained on ImageNet without KD  | 79.65|
+| Student untrained with KD using SVHN+TinyIN Balanced  | 60.67|
+| `Student untrained with KD+MMS Score`   | `68.02`|
+
 # Code files explained
 - compile.py : is the main code which contains step-wise implementation of the algorithm.
 - TeacherTrain.py is the code responsible for training the teacher model on the target dataset.
