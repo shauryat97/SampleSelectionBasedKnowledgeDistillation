@@ -34,7 +34,7 @@ I used the same concept of confidence as a sample selection metric. I select tho
 |   Approach    |Accuracy(%)      |
 | ------------- |:-------------:|
 | Student without Sample Selection | 60.67|
-| `Student MMS Score as sample metric`   | `68.02`|
+| `Student with  MMS Score as sample metric`   | `68.02`|
 
 i.e., I get an `increase in accuracy by 7.35%` after using a sample selection metric(Minimal Margin Score).
 
