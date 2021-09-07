@@ -17,13 +17,11 @@ My baseline was based on the [paper](https://arxiv.org/abs/2011.09113) and work 
 | Target Dataset        |Teacher Model          | Student Model  |
 | ------------- |:-------------:| -----:   |
 | `CIFAR10`   | `Resnet-34(pretrained on ImageNet)`| `Resnet-18` |
-| `CIFAR100`   | `Inception-V3(pretrained on ImageNet)`| `Resnet-18` |
 
 # Datasets used for constructing transfer sets.
 | Target Dataset        |Arbitrary Datasets used          |
 | ------------- |:-------------:|
 | CIFAR10   | SVHN , TinyImageNet , Places365 , Cifar100 , STL10 , Caltech256 , Caltech101 |
-| CIFAR100  | SVHN , TinyImageNet , Places365 , Cifar10 , STL10 , Caltech256 , Caltech101|
 
 #  Minimal Margin Score(MMS) as a sample selection metric
 MMS was initially used by Berry et al for [selective sampling to accelerate the training of deep neural networks](https://arxiv.org/pdf/1911.06996.pdf) by selecting samples which have low margin distance from the decision boundary.This concept was motivated from Support Vector Machines , where samples far from the decision boundary were the ones on which the model had high confidence and samples close to the decision boundary were the ones on which model had low confidence.In order to train the model better, we had to focus on samples on which model had less confidence and we could ignore high confodence samples and thus saving the compute cost and time.
@@ -35,9 +33,8 @@ I used the same concept of confidence as a sample selection metric. I select tho
 
 |   Approach    |Accuracy(%)      |
 | ------------- |:-------------:|
-| Student pretrained on ImageNet without KD  | 79.65|
-| Student untrained with KD using SVHN+TinyIN Balanced  | 60.67|
-| `Student untrained with KD+MMS Score`   | `68.02`|
+| Student without Sample Selection | 60.67|
+| `Student MMS Score as sample metric`   | `68.02`|
 
 i.e., I get an `increase in accuracy by 7.35%` after using a sample selection metric(Minimal Margin Score).
 
